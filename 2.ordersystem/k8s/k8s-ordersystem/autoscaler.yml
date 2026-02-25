@@ -8,8 +8,7 @@ metadata:
   name: cluster-autoscaler
   namespace: kube-system
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::895421295243:role/autoscaling-role
-  
+    eks.amazonaws.com/role-arn: arn:aws:iam::895421295243:role/cluster-autoscaling-role
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -161,12 +160,12 @@ spec:
           command:
             - ./cluster-autoscaler
             - --v=4
-            - --cluster-name=my-cluster
+            - --cluster-name=my-cluster-sol
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
             - --expander=least-waste
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster-sol
           env:
             - name: AWS_REGION
               value: "ap-northeast-2"
