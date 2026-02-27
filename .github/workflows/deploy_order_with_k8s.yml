@@ -3,7 +3,7 @@ name: deploy order order-backend
 on:
   push:
     branches:
-      - main
+      - review-eks-v2
 
 jobs:
   build-and-deploy:
