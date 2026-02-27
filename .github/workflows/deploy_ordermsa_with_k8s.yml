@@ -30,7 +30,7 @@ jobs:
 
         # 클러스터 설정
       - name: update cluster infomation
-        run: aws eks update-kubeconfig --name my-cluster --region ap-northeast-2
+        run: aws eks update-kubeconfig --name org-cluster --region ap-northeast-2
 
         # ECR 로그인
       - name: Login to ECR
@@ -40,7 +40,7 @@ jobs:
         # API Gateway 이미지 push 관련 설정
       - name: gateway build and push docker image to ecr
         env:
-          REGISTRY: 895421295243.dkr.ecr.ap-northeast-2.amazonaws.com
+          REGISTRY: 973168821519.dkr.ecr.ap-northeast-2.amazonaws.com
           REPOSITORY: apigateway
           IMAGE_TAG: latest
         run: |
@@ -57,7 +57,7 @@ jobs:
         # member 이미지 push 관련 설정
       - name: member build and push docker image to ecr
         env:
-          REGISTRY: 895421295243.dkr.ecr.ap-northeast-2.amazonaws.com
+          REGISTRY: 973168821519.dkr.ecr.ap-northeast-2.amazonaws.com
           REPOSITORY: member-service
           IMAGE_TAG: latest
         run: |
@@ -74,7 +74,7 @@ jobs:
         # order 이미지 push 관련 설정
       - name: order build and push docker image to ecr
         env:
-          REGISTRY: 895421295243.dkr.ecr.ap-northeast-2.amazonaws.com
+          REGISTRY: 973168821519.dkr.ecr.ap-northeast-2.amazonaws.com
           REPOSITORY: ordering-service
           IMAGE_TAG: latest
         run: |
@@ -91,7 +91,7 @@ jobs:
         # product 이미지 push 관련 설정
       - name: product build and push docker image to ecr
         env:
-          REGISTRY: 895421295243.dkr.ecr.ap-northeast-2.amazonaws.com
+          REGISTRY: 973168821519.dkr.ecr.ap-northeast-2.amazonaws.com
           REPOSITORY: product-service
           IMAGE_TAG: latest
         run: |

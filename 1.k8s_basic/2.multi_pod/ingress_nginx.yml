@@ -14,7 +14,7 @@ metadata:
     
 spec:
   rules:
-  - host: service.aws-esk.com  # 설정하려는 도메인 이름.
+  - host: service.awskdy.click #설정하려는 도메인 이름.
     http:
       paths:
       # - path: /

@@ -14,11 +14,11 @@ metadata:
 spec:
   tls:
   - hosts:
-    - "service.aws-esk.com"
+    - "service.awskdy.click"
     # https설정시에 TLS 인증서가 저장된 certificate의 Secret의 이름(spec.secretName)을 지정
-    secretName: service-aws-esk-com-tls
+    secretName: service-awskdy-click-tls
   rules:
-  - host: service.aws-esk.com
+  - host: service.awskdy.click
     http:
       paths:
       - path: / #모든 url요청을 service로 라우팅

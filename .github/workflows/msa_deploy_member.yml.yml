@@ -1,9 +1,12 @@
-name: deploy order order-backend
+name: deploy member-service
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "3.msa/member/**"
+      - ".github/workflows/deploy_member_with_k8s.yml"
 
 jobs:
   build-and-deploy:
@@ -11,22 +14,22 @@ jobs:
     steps:
       - name: checkout github
         uses: actions/checkout@v2
-      
+
       - name: install kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: "v1.25.9"
         id: install
-        
+
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_KEY2 }}
-          aws-secret-access-key:  ${{ secrets.AWS_SECRET2 }}
+          aws-access-key-id: ${{ secrets.AWS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: ap-northeast-2
 
       - name: update cluster infomation
-        run: aws eks update-kubeconfig --name  org-cluster --region ap-northeast-2
+        run: aws eks update-kubeconfig --name my-cluster --region ap-northeast-2
 
       - name: Login to ECR
         id: login-ecr
@@ -34,16 +37,16 @@ jobs:
 
       - name: build and push docker image to ecr
         env:
-          REGISTRY: 973168821519.dkr.ecr.ap-northeast-2.amazonaws.com
-          REPOSITORY: order-backend
+          REGISTRY: 895421295243.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: member-service
           IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./2.ordersystem/Dockerfile ./2.ordersystem
+          -f ./3.msa/member/Dockerfile ./3.msa/member
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      - name: eks kubectl apply
+      - name: eks kubectl apply and restart
         run: |
-          kubectl rollout restart deployment ordersystem-backend -n soldesk
-        # kubectl apply -f ./2.ordersystem/k8s/k8s-ordersystem/depl_svc.yml
+          kubectl apply -f ./3.msa/member/k8s/depl_svc.yml
+          kubectl rollout restart deployment member-depl -n soldesk
